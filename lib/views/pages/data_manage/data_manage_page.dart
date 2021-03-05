@@ -13,7 +13,8 @@ import 'package:flutter_unit/blocs/bloc_exp.dart';
 import 'package:flutter_unit/model/category_model.dart';
 import 'package:flutter_unit/repositories/itf/category_repository.dart';
 import 'package:flutter_unit/user_system/component/authentic_widget.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
 import 'package:path/path.dart' as path;
 
 /// create by 张风捷特烈 on 2021/2/26
@@ -68,7 +69,8 @@ class DataManagePage extends StatelessWidget {
   }
 
   _recallDatabase(BuildContext context) async {
-    String databasesPath = await getDatabasesPath();
+    var databaseFactory = databaseFactoryFfi;
+    String databasesPath = await databaseFactory.getDatabasesPath();
     String dbPath = path.join(databasesPath, "flutter.db");
     ByteData data = await rootBundle.load(path.join("assets", "flutter.db"));
     List<int> bytes =

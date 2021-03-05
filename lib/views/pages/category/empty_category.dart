@@ -7,7 +7,7 @@ import 'package:flutter_unit/app/res/color_unit.dart';
 import 'package:flutter_unit/blocs/bloc_exp.dart';
 import 'package:flutter_unit/views/components/permanent/feedback_widget.dart';
 import 'package:flutter_unit/views/components/permanent/panel.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart' as path;
 /// create by 张风捷特烈 on 2021/2/25
 /// contact me by email 1981462002@qq.com
@@ -52,7 +52,8 @@ class EmptyCategory extends StatelessWidget {
   }
 
   _recallDatabase(BuildContext context) async{
-    String databasesPath = await getDatabasesPath();
+    var databaseFactory = databaseFactoryFfi;
+    String databasesPath = await databaseFactory.getDatabasesPath();
     String dbPath = path.join(databasesPath, "flutter.db");
     ByteData data = await rootBundle.load(path.join("assets", "flutter.db"));
     List<int> bytes =

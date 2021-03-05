@@ -16,7 +16,7 @@ dependencies:
   flutter_bloc: ^6.1.1 # 状态管理
   equatable: ^1.2.5 # 相等辅助
 
-  sqflite: ^1.2.1 # 数据库
+#  sqflite: ^1.2.1 # 数据库
   shared_preferences: ^0.5.6+3 # xml 固化
   jwt_decoder: ^1.0.3
   toggle_rotate: ^0.0.5
@@ -33,6 +33,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sqflite_common_ffi:
 
 flutter:
   uses-material-design: true

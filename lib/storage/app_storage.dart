@@ -6,7 +6,11 @@ import 'package:flutter_unit/app/res/cons.dart';
 import 'package:flutter_unit/app/res/sp.dart';
 import 'package:flutter_unit/blocs/global/global_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common/sqlite_api.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common/sqlite_api.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
 import 'package:path/path.dart' as path;
 
 /// create by 张风捷特烈 on 2020-03-04
@@ -48,9 +52,11 @@ class AppStorage {
 
   // 初始化数据库
   Future<Database> initDb() async {
-    String databasesPath = await getDatabasesPath();
+    sqfliteFfiInit();
+    var databaseFactory = databaseFactoryFfi;
+    String databasesPath = await databaseFactory.getDatabasesPath();
     String dbPath = path.join(databasesPath, "flutter.db");
-    bool exists = await databaseExists(dbPath);
+    bool exists = await databaseFactory.databaseExists(dbPath);
     const isPro = bool.fromEnvironment('dart.vm.product'); //是否release模式
 
     if (!isPro) {
@@ -62,7 +68,8 @@ class AppStorage {
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(dbPath).writeAsBytes(bytes, flush: true);
       print("==== debug ===== assets ======拷贝完成====");
-      return await openDatabase(dbPath, readOnly: false);
+      return await databaseFactory.openDatabase(dbPath,
+          options: OpenDatabaseOptions(readOnly: false));
     }
 
     if (!exists) {
@@ -75,6 +82,7 @@ class AppStorage {
     } else {
       print("========= 数据库 ======已存在====");
     }
-    return await openDatabase(dbPath, readOnly: false);
+    return await databaseFactory.openDatabase(dbPath,
+        options: OpenDatabaseOptions(readOnly: false));
   }
 }

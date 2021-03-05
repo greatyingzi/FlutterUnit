@@ -1,5 +1,5 @@
 
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common/sqlite_api.dart';
 
 import '../app_storage.dart';
 import '../po/category_po.dart';
