@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -147,8 +149,8 @@ class FrameShower extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           PictureFrame(
-            width: MediaQuery.of(context).size.shortestSide,
-            height: MediaQuery.of(context).size.shortestSide,
+            width: adaptationSize(context),
+            height: adaptationSize(context),
             child: content,
           ),
 
@@ -187,5 +189,14 @@ class FrameShower extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  double adaptationSize(BuildContext context ){
+    double retSize = MediaQuery.of(context).size.shortestSide;
+    if (Platform.isLinux||Platform.isWindows||Platform.isMacOS){
+      return retSize/2;
+    }else{
+      return retSize;
+    }
   }
 }
